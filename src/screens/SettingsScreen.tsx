@@ -22,8 +22,11 @@ export const SettingsScreen = (): JSX.Element => {
               width="64"
               key={scheme}
               mb={2}
+              // eslint-disable-next-line react/jsx-no-bind
               onPress={() => setColorSchemeSetting(scheme)}
-            >{`${scheme}${isSelected ? ' - selected' : ''}`}</Button>
+            >
+              <Text>{`${scheme}${isSelected ? ' - selected' : ''}`}</Text>
+            </Button>
           )
         })}
 
