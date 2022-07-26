@@ -7,9 +7,9 @@ afterEach(cleanup)
 it('renders a component screen', async () => {
   const { getByText } = render(<ComponentsScreen />)
 
-  const button = getByText('Button')
-  expect(button).toBeTruthy()
-
-  const text = getByText('This is component screen')
+  const text = getByText('Button variants')
   expect(text).toBeTruthy()
+
+  const button = getByText('Button solid')
+  expect(button).toBeTruthy()
 })

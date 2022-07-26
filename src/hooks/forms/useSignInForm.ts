@@ -9,8 +9,8 @@ import { useAuth } from '../useAuth'
 import { SignInFormValues } from '~types/authForms'
 
 const defaultValues: SignInFormValues = {
-  email: 'test@example.com',
-  password: '123456',
+  email: '',
+  password: '',
   confirm: false,
 }
 

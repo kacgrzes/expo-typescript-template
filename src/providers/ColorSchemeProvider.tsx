@@ -1,10 +1,11 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-import { FC, useEffect } from 'react'
+import { useColorMode } from 'native-base'
+import { FC } from 'react'
 import { useColorScheme as useRNColorScheme } from 'react-native'
 
 import { colorSchemesList, colorSchemes, ASYNC_STORAGE_KEYS } from '~constants'
 import { ColorSchemeContext, ColorSchemeContextType } from '~contexts'
-import { useState, useMemo, useCallback } from '~hooks'
+import { useEffect, useState, useMemo, useCallback } from '~hooks'
 
 export type SettingColorSchemeName = typeof colorSchemesList[number]
 export type ColorSchemeName = Exclude<SettingColorSchemeName, 'system'>
@@ -14,6 +15,7 @@ const defaultColorScheme = colorSchemes.LIGHT
 export const ColorSchemeProvider: FC = ({ children }) => {
   const { setItem, getItem } = useAsyncStorage(ASYNC_STORAGE_KEYS.COLOR_SCHEME)
   const systemColorScheme = useRNColorScheme()
+  const { setColorMode } = useColorMode()
   const [colorSchemeSetting, setColorSchemeSetting] = useState<SettingColorSchemeName>(
     colorSchemes.SYSTEM
   )
@@ -43,6 +45,7 @@ export const ColorSchemeProvider: FC = ({ children }) => {
     (newColorScheme: SettingColorSchemeName) => {
       const oldColorScheme = colorSchemeSetting
       setColorSchemeSetting(newColorScheme)
+      setColorMode(newColorScheme)
       setItem(newColorScheme, (error) => {
         if (error) {
           setColorSchemeSetting(oldColorScheme)
@@ -50,7 +53,7 @@ export const ColorSchemeProvider: FC = ({ children }) => {
         // TODO: Handle error
       })
     },
-    [colorSchemeSetting, setItem]
+    [colorSchemeSetting, setItem, setColorMode]
   )
 
   const value: ColorSchemeContextType = useMemo(

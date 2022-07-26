@@ -33,10 +33,11 @@ module.exports = {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'react/display-name': 'off',
+    'react/prop-types': 'off',
     'react-native/no-raw-text': [
       2,
       {
-        skip: ['Button'],
+        skip: ['Button', 'Heading'],
       },
     ],
   },
