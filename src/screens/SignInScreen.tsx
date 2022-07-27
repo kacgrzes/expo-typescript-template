@@ -67,6 +67,7 @@ export const SignInScreen = (): JSX.Element => {
           mb={4}
         />
         <Button
+          testID="signInButton"
           onPress={submit}
           isLoading={isSubmitting}
           width="64"
