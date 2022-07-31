@@ -45,9 +45,7 @@ export const ColorsScreen = (): JSX.Element => {
     <ScrollView p={4}>
       {colorsVariants.map((colorVariant) => (
         <Center key={colorVariant}>
-          <Heading color="black" size="sm">
-            {colorVariant}
-          </Heading>
+          <Heading size="sm">{colorVariant}</Heading>
           <Row my={2}>
             {Object.values(colors[colorVariant]).map((color) => (
               <Box h={8} w={8} key={color} bg={color} />

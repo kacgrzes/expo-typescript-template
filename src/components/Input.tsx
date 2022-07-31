@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons'
-import { Input as NBInput, IInputProps, FormControl, useTheme } from 'native-base'
+import { IInputProps, FormControl, useTheme, Input as NBInput } from 'native-base'
 import { forwardRef } from 'react'
 import {
   ChangeHandler,
@@ -14,7 +14,7 @@ import { TextInput } from 'react-native'
 
 import { Touchable } from './Atoms'
 
-import { useSecurePassword, useCallback } from '~hooks'
+import { useSecurePassword, useCallback, useMemo } from '~hooks'
 
 type InputProps = IInputProps & {
   label?: string
@@ -24,16 +24,56 @@ type InputProps = IInputProps & {
   onInputBlur?: () => ChangeHandler
 }
 
+const layoutPropsKeys = [
+  'm',
+  'margin',
+  'mt',
+  'marginTop',
+  'mr',
+  'marginRight',
+  'mb',
+  'marginBottom',
+  'ml',
+  'marginLeft',
+  'mx',
+  'my',
+  'p',
+  'padding',
+  'pt',
+  'paddingTop',
+  'pr',
+  'paddingRight',
+  'pb',
+  'paddingBottom',
+  'pl',
+  'paddingLeft',
+  'px',
+  'py',
+]
+
 export const Input = forwardRef<TextInput, InputProps>(
   ({ label, helperText, isRequired, errorMessage, errorIcon, onInputBlur, ...props }, ref) => {
-    const { securePassword, toggleSecurePassword, iconName } = useSecurePassword(props.type)
     const { colors } = useTheme()
+
+    const layoutProps = useMemo(
+      () =>
+        Object.fromEntries(Object.entries(props).filter(([key]) => layoutPropsKeys.includes(key))),
+      [props]
+    )
+
+    const inputProps = useMemo(
+      () =>
+        Object.fromEntries(Object.entries(props).filter(([key]) => !layoutPropsKeys.includes(key))),
+      [props]
+    )
+
+    const { securePassword, toggleSecurePassword, iconName } = useSecurePassword(props.type)
     const handleBlur = useCallback(() => {
       onInputBlur?.()
     }, [onInputBlur])
 
     return (
-      <FormControl isRequired={isRequired} isInvalid={Boolean(errorMessage)}>
+      <FormControl isRequired={isRequired} isInvalid={Boolean(errorMessage)} {...layoutProps}>
         {label && (
           <FormControl.Label
             _disabled={{
@@ -47,18 +87,18 @@ export const Input = forwardRef<TextInput, InputProps>(
           </FormControl.Label>
         )}
         <NBInput
-          {...props}
+          {...inputProps}
           onBlur={handleBlur}
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           ref={ref!}
           secureTextEntry={securePassword}
-          InputRightElement={
-            props.type === 'password' ? (
+          rightElement={
+            inputProps.type === 'password' ? (
               <Touchable mr={2} onPress={toggleSecurePassword}>
-                <Feather name={iconName} color={colors.gray['300']} size={24} />
+                <Feather name={iconName} color={colors.gray['400']} size={24} />
               </Touchable>
             ) : (
-              props.InputRightElement
+              inputProps.rightElement
             )
           }
         />

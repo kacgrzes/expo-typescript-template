@@ -19,10 +19,14 @@ describe('SignInScreen', () => {
   })
 
   it('should display errors on required fields', async () => {
-    const { getByTestId, findAllByText, update } = render(<SignInScreen />)
+    const { getByTestId, findAllByText, getByPlaceholderText, update } = render(<SignInScreen />)
+    const emailInput = getByPlaceholderText('john@doe.com')
+    const passwordInput = getByPlaceholderText('password')
     const signInButton = getByTestId('signInButton')
 
     expect(signInButton).toBeDefined()
+    fireEvent.changeText(emailInput, '')
+    fireEvent.changeText(passwordInput, '')
     fireEvent.press(signInButton)
 
     await act(async () => {

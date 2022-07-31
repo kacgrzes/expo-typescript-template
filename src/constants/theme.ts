@@ -32,20 +32,6 @@ const commonColors = {
   notification: '#000',
 }
 
-// const fontConfig = {
-//   fontLato: {
-//     400: {
-//       normal: 'lato-regular',
-//     },
-//     600: {
-//       normal: 'lato-bold',
-//     },
-//     800: {
-//       normal: 'lato-extra-bold',
-//     },
-//   },
-// } as const
-
 const fontSizes = {
   '2xs': 10,
   xs: 12,

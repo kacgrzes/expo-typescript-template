@@ -19,12 +19,13 @@ export const HomeScreen = (props: HomeScreenProps): JSX.Element => {
         resizeMode="contain"
         resizeMethod="resize"
         height={24}
+        alt="logo"
       />
       <Text textAlign="center">{t('hello')}</Text>
       <Text textAlign="center">{t('thanks')}</Text>
       <Text textAlign="center">{t('app_information')}</Text>
       <Button mt={4} onPress={navigateToDetails}>
-        Details
+        {t('home_screen.details')}
       </Button>
     </Center>
   )

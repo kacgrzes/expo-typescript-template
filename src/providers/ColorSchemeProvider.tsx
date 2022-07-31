@@ -25,16 +25,17 @@ export const ColorSchemeProvider: FC = ({ children }) => {
 
   useEffect(() => {
     const getInitialColorScheme = async () => {
-      getItem((error, savedColorScheme) => {
-        if (!error && savedColorScheme) {
-          setColorSchemeSetting(savedColorScheme as SettingColorSchemeName)
-        } else if (systemColorScheme) {
-          // For old devices it's possible that system color scheme name is null or undefined
-          setColorSchemeSetting(systemColorScheme)
+      try {
+        const colorScheme = await getItem()
+        if (colorScheme === 'system' && systemColorScheme) {
+          setNewColorSchemeSetting(systemColorScheme)
         } else {
-          setColorSchemeSetting(defaultColorScheme)
+          setNewColorSchemeSetting((colorScheme || defaultColorScheme) as ColorSchemeName)
         }
-      })
+      } catch (error) {
+        console.error(error)
+        setNewColorSchemeSetting(defaultColorScheme)
+      }
     }
 
     getInitialColorScheme()
@@ -42,18 +43,19 @@ export const ColorSchemeProvider: FC = ({ children }) => {
   }, [])
 
   const setNewColorSchemeSetting = useCallback(
-    (newColorScheme: SettingColorSchemeName) => {
+    (newColorScheme: ColorSchemeName) => {
       const oldColorScheme = colorSchemeSetting
       setColorSchemeSetting(newColorScheme)
       setColorMode(newColorScheme)
       setItem(newColorScheme, (error) => {
         if (error) {
+          console.error(error)
           setColorSchemeSetting(oldColorScheme)
         }
         // TODO: Handle error
       })
     },
-    [colorSchemeSetting, setItem, setColorMode]
+    [colorSchemeSetting, setColorMode, setItem]
   )
 
   const value: ColorSchemeContextType = useMemo(

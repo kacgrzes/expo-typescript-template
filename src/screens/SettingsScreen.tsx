@@ -1,11 +1,18 @@
 import { ScrollView, Text, Button, Center } from 'native-base'
 
-import { colorSchemesList } from '~constants'
-import { useAuth, useColorScheme } from '~hooks'
+import { useAuth, useCallback, useColorScheme } from '~hooks'
+import { ColorSchemeName } from '~providers'
+
+const schemes: ColorSchemeName[] = ['light', 'dark']
 
 export const SettingsScreen = (): JSX.Element => {
   const { setColorSchemeSetting, colorSchemeSetting } = useColorScheme()
   const { signOut } = useAuth()
+
+  const handleColorSchemeSettingChange = useCallback(
+    (colorScheme: ColorSchemeName) => () => setColorSchemeSetting(colorScheme),
+    [setColorSchemeSetting]
+  )
 
   return (
     <ScrollView>
@@ -13,7 +20,7 @@ export const SettingsScreen = (): JSX.Element => {
         <Text fontSize="2xl" bold mb={2}>
           Current theme: {colorSchemeSetting}
         </Text>
-        {colorSchemesList.map((scheme) => {
+        {schemes.map((scheme) => {
           const isSelected = scheme === colorSchemeSetting
 
           return (
@@ -22,10 +29,9 @@ export const SettingsScreen = (): JSX.Element => {
               width="64"
               key={scheme}
               mb={2}
-              // eslint-disable-next-line react/jsx-no-bind
-              onPress={() => setColorSchemeSetting(scheme)}
+              onPress={handleColorSchemeSettingChange(scheme)}
             >
-              <Text>{`${scheme}${isSelected ? ' - selected' : ''}`}</Text>
+              {`${scheme}${isSelected ? ' - selected' : ''}`}
             </Button>
           )
         })}

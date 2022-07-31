@@ -24,6 +24,9 @@
     "newsletter_label": "Subscribe to our newsletter",
     "sign_up": "Sign up"
   },
+  "home_screen": {
+    "details": "Details"
+  },
   "colors_screen": {
     "colors_label": "Colors"
   },
