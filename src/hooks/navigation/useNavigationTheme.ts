@@ -18,10 +18,10 @@ export const useNavigationTheme = (): ReturnValues => {
 
   const tabBarTheme: BottomTabNavigationOptions = useMemo(
     () => ({
-      tabBarActiveTintColor: colors.primary[600],
-      tabBarInactiveTintColor: colors.primary[400],
+      tabBarActiveTintColor: colors.primary[400],
+      tabBarInactiveTintColor: colors.gray[500],
     }),
-    [colors.primary]
+    [colors.primary, colors.gray]
   )
 
   const navigationTheme = colorScheme === 'dark' ? darkNavigationTheme : lightNavigationTheme
