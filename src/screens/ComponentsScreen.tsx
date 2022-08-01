@@ -3,8 +3,8 @@ import { VStack, Heading, Divider, Button, ScrollView } from 'native-base'
 
 import { useCallback, useNotifications, useTranslation } from '~hooks'
 
-const headingSizes = ['xs', 'sm', 'md', 'lg', '2xl', '3xl', '4xl']
-const buttonVariants = ['solid', 'outline', 'subtle', 'ghost']
+const headingSizes = ['xs', 'sm', 'md', 'lg', '2xl', '3xl', '4xl'] as const
+const buttonVariants = ['solid', 'outline', 'subtle', 'ghost'] as const
 
 export const ComponentsScreen = (): JSX.Element => {
   const { notify } = useNotifications()
@@ -33,8 +33,6 @@ export const ComponentsScreen = (): JSX.Element => {
         <Heading mb={4}>{t('components_screen.typography.label')}</Heading>
         {headingSizes.map((size) => (
           <Heading key={size} size={size}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-expect-error */}
             {t(`components_screen.typography.${size}`)}
           </Heading>
         ))}
@@ -42,8 +40,6 @@ export const ComponentsScreen = (): JSX.Element => {
         <Heading mb={4}>{t('components_screen.button_variants.header')}</Heading>
         {buttonVariants.map((variant) => (
           <Button key={variant} mb={2} variant={variant}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-expect-error */}
             {t(`components_screen.button_variants.${variant}`)}
           </Button>
         ))}

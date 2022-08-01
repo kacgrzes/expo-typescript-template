@@ -27,7 +27,7 @@ const queryClient = new QueryClient({})
 const App = (): JSX.Element => {
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager} config={nativeBaseConfig}>
-      {/* NativeBaseProvider includes SafeAreaProvider so that, we don't have to include it in a root render tree */}
+      {/* NativeBaseProvider includes SafeAreaProvider so that we don't have to include it in a root render tree */}
       <NotificationsProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
