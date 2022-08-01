@@ -25,9 +25,9 @@ if (DISABLE_CONSOLE_ENABLE_MOCKED_SERVER) {
 const queryClient = new QueryClient({})
 
 const App = (): JSX.Element => {
-  console.log('colorModeManager', colorModeManager)
   return (
     <NativeBaseProvider theme={theme} colorModeManager={colorModeManager} config={nativeBaseConfig}>
+      {/* NativeBaseProvider includes SafeAreaProvider so that, we don't have to include it in a root render tree */}
       <NotificationsProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
