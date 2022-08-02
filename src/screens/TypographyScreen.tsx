@@ -1,19 +1,14 @@
 import { ScrollView, Center, Text, Heading, Switch } from 'native-base'
 
-import { useCallback, useColorScheme } from '~hooks'
+import { useColorMode } from '~hooks'
 
 export const TypographyScreen = (): JSX.Element => {
-  const colorScheme = useColorScheme()
-
-  const changeColorScheme = useCallback(
-    () => colorScheme.setColorSchemeSetting(colorScheme.colorScheme === 'dark' ? 'light' : 'dark'),
-    [colorScheme]
-  )
+  const { toggleColorMode } = useColorMode()
 
   return (
     <ScrollView>
       <Center>
-        <Switch my={8} onChange={changeColorScheme} />
+        <Switch my={8} onChange={toggleColorMode} />
         <Text fontSize="xs">xs</Text>
         <Text fontSize="sm">sm</Text>
         <Text fontSize="md">md</Text>
