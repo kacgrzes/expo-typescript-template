@@ -1,32 +1,39 @@
+import { Box, Button, Center, Image, Text } from 'native-base'
 import { TextInput } from 'react-native'
 
-import { Box, Button, Center, ControlledInput, Text, ControlledCheckbox } from '~components'
+import { ControlledCheckbox, ControlledInput } from '~components'
 import { REGEX } from '~constants'
-import { useCallback, useNavigation, useRef, useSignInForm, useTheme, useTranslation } from '~hooks'
+import { useCallback, useSignInForm, useNavigation, useTranslation, useRef } from '~hooks'
 
 export const SignInScreen = (): JSX.Element => {
-  const { s } = useTheme()
-  const { t } = useTranslation()
   const { navigate } = useNavigation()
-  const emailInputRef = useRef<TextInput>(null)
-
-  const { control, error, errors, submit, isSubmitting } = useSignInForm()
+  const { t } = useTranslation()
+  const passwordInputRef = useRef<TextInput>(null)
+  const { control, errors, submit, isSubmitting } = useSignInForm()
 
   const goToSignUp = useCallback(() => navigate('SignUp'), [navigate])
 
   return (
-    <Center px={8} flex={1} bg="gray100">
+    <Center p={8} flex={1}>
+      <Image
+        source={require('~assets/logo.png')}
+        resizeMode="contain"
+        resizeMethod="resize"
+        height={24}
+        alt="logo"
+        flex={1}
+      />
       <ControlledInput
-        fullWidth
+        isRequired
+        returnKeyType="next"
         label={t('common.email_label')}
         control={control}
         errors={errors}
-        keyboardType="email-address"
-        placeholder={t('common.email_placeholder')}
         name="email"
-        type="email"
-        returnKeyType="next"
-        onSubmitEditing={emailInputRef.current?.focus}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        onSubmitEditing={passwordInputRef.current?.focus}
+        placeholder={t('common.email_placeholder')}
         rules={{
           required: t('form.required'),
           pattern: {
@@ -34,43 +41,54 @@ export const SignInScreen = (): JSX.Element => {
             message: t('form.invalid_email_format'),
           },
         }}
-        containerStyle={[s.mB2]}
       />
       <ControlledInput
-        ref={emailInputRef}
-        fullWidth
+        isRequired
+        ref={passwordInputRef}
+        returnKeyType="send"
+        onSubmitEditing={submit}
         label={t('sign_in_screen.password_label')}
         control={control}
         errors={errors}
-        placeholder={t('sign_in_screen.password_placeholder')}
         name="password"
-        type="protected"
-        returnKeyType="send"
-        onSubmitEditing={submit}
-        rules={{ required: t('form.required') }}
-        containerStyle={[s.mB2]}
+        type="password"
+        autoCapitalize="none"
+        placeholder={t('sign_in_screen.password_placeholder')}
+        rules={{
+          required: t('form.required'),
+        }}
       />
-      <ControlledCheckbox
-        control={control}
-        name="confirm"
-        label="Remember me"
-        disabled={isSubmitting}
-      />
-      <Box mt={4} />
-      <Button onPress={submit} title="Sign in" loading={isSubmitting} disabled={isSubmitting} />
-      <Box mt={8} />
-      {!!error && <Text.BodyBold color="errorLight">{error}</Text.BodyBold>}
+      <Center mt={8}>
+        <ControlledCheckbox
+          control={control}
+          errors={errors}
+          name="confirm"
+          label={t('sign_in_screen.remember_me')}
+          mb={4}
+        />
+        <Button
+          testID="signInButton"
+          onPress={submit}
+          isLoading={isSubmitting}
+          width="64"
+          isDisabled={isSubmitting}
+          mb={8}
+        >
+          {t('sign_in_screen.sign_in')}
+        </Button>
+        <Text bold mb={4}>
+          {t('sign_in_screen.dont_have_an_account')}
+        </Text>
+        <Button width="64" onPress={goToSignUp} variant="ghost">
+          {t('sign_in_screen.sign_up')}
+        </Button>
+      </Center>
+      <Box mt={12} />
       {/* TODO: Remove this after implementing signing in with backend  */}
-      <Box alignItems="center">
-        <Text.H5>{t('sign_in_screen.dont_have_an_account')}</Text.H5>
-        <Box mt={2} />
-        <Button onPress={goToSignUp} title="Sign up" variant="Flat" />
-      </Box>
-      <Box mt={8} />
-      <Text.BodyBold>Correct credentials</Text.BodyBold>
-      <Text.BodyRegular color="gray500" center>
+      <Text bold>Correct credentials</Text>
+      <Text color="gray.500" textAlign="center">
         Email: test@example.com{'\n'}Password: 123456
-      </Text.BodyRegular>
+      </Text>
     </Center>
   )
 }

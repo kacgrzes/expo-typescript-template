@@ -1,15 +1,12 @@
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet'
-import { useCallback, useMemo, useRef } from 'react'
-import { View } from 'react-native'
+import { Box, Center, Text, Button } from 'native-base'
 
-import { Button, Text } from '~components'
-import { useTheme } from '~hooks'
+import { useCallback, useMemo, useRef } from '~hooks'
 
 export const DetailsScreen = (props: DetailsScreenProps): JSX.Element => {
   const {
     route: { params },
   } = props
-  const { s } = useTheme()
 
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
@@ -32,9 +29,9 @@ export const DetailsScreen = (props: DetailsScreenProps): JSX.Element => {
   )
 
   return (
-    <View style={[s.flex1, s.justifyCenter, s.itemsCenter]}>
+    <Center>
       <Text>This is details screen</Text>
-      <Button onPress={openModal} title="Open BottomSheetModal" style={[s.mB2]} />
+      <Button onPress={openModal}>Open BottomSheetModal</Button>
       <Text>Screen params {JSON.stringify(params)}</Text>
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -43,10 +40,10 @@ export const DetailsScreen = (props: DetailsScreenProps): JSX.Element => {
         onChange={handleSheetChanges}
         backdropComponent={renderBackdrop}
       >
-        <View style={[s.p4]}>
+        <Box p={4}>
           <Text color="black">Awesome 🎉</Text>
-        </View>
+        </Box>
       </BottomSheetModal>
-    </View>
+    </Center>
   )
 }
